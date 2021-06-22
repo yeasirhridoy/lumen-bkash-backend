@@ -1,28 +1,33 @@
 <?php
 
 
-namespace App\Modules\v1;
+namespace App\PaymentGateway\BKASH\v1;
 
 
-class Capture
+class ExecutePayment
 {
     private $paymentId;
-    public function capture()
+
+    public function executePayment()
     {
+        $url = curl_init(env('BKASH_BASE_URL') . '/checkout/payment/execute/' . $this->paymentId);
+
         $token = Token::get();
-        $url = curl_init(env('BKASH_BASE_URL') . '/checkout/payment/capture/' . $this->paymentId);
+
         $header = array(
             'Content-Type:application/json',
             'authorization:' . $token,
             'x-app-key:' . env('BKASH_APP_KEY')
         );
+
         curl_setopt($url, CURLOPT_HTTPHEADER, $header);
         curl_setopt($url, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
-        $resultData = curl_exec($url);
 
+        $resultData = curl_exec($url);
         curl_close($url);
+
         return $resultData;
     }
 

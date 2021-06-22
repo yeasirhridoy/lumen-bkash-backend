@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Modules\v1;
+namespace App\PaymentGateway\BKASH\v1;
 
 
 class CreatePayment

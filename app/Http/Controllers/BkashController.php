@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Modules\v1\Capture;
-use App\Modules\v1\CreatePayment;
-use App\Modules\v1\ExecutePayment;
-use App\Modules\v1\QueryPayment;
-use App\Modules\v1\Search;
-use App\Modules\v1\Token;
-use App\Modules\v1\VoidPayment;
+use App\PaymentGateway\BKASH\v1\Capture;
+use App\PaymentGateway\BKASH\v1\CreatePayment;
+use App\PaymentGateway\BKASH\v1\ExecutePayment;
+use App\PaymentGateway\BKASH\v1\QueryPayment;
+use App\PaymentGateway\BKASH\v1\Search;
+use App\PaymentGateway\BKASH\v1\Token;
+use App\PaymentGateway\BKASH\v1\VoidPayment;
 use Illuminate\Http\Request;
 
 class BkashController extends Controller

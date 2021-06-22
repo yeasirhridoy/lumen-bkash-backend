@@ -1,33 +1,33 @@
 <?php
 
 
-namespace App\Modules\v1;
+namespace App\PaymentGateway\BKASH\v1;
 
 
-class Search
+class Capture
 {
-    private $transactionId;
-
-    public function search()
+    private $paymentId;
+    public function capture()
     {
         $token = Token::get();
-        $url = curl_init(env('BKASH_BASE_URL') . '/checkout/payment/search/' . $this->transactionId);
+        $url = curl_init(env('BKASH_BASE_URL') . '/checkout/payment/capture/' . $this->paymentId);
         $header = array(
             'Content-Type:application/json',
             'authorization:' . $token,
             'x-app-key:' . env('BKASH_APP_KEY')
         );
         curl_setopt($url, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($url, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($url, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
-        $resultdatax = curl_exec($url);
+        $resultData = curl_exec($url);
+
         curl_close($url);
-        return $resultdatax;
+        return $resultData;
     }
 
-    public function setTransactionId($transactionId){
-        $this->transactionId = $transactionId;
+    public function setPaymentId($paymentId){
+        $this->paymentId = $paymentId;
         return $this;
     }
 }
