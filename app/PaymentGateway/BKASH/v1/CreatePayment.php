@@ -4,6 +4,8 @@
 namespace App\PaymentGateway\BKASH\v1;
 
 
+use Illuminate\Support\Facades\Log;
+
 class CreatePayment
 {
     private $amount;
@@ -15,9 +17,14 @@ class CreatePayment
     {
         $invoice = uniqid();
         $body = array('amount' => $this->amount, 'currency' => $this->currency, 'merchantInvoiceNumber' => $invoice, 'intent' => $this->intent);
-        $url = curl_init(env('BKASH_BASE_URL') . '/checkout/payment/create');
+        $url = env('BKASH_BASE_URL') . '/checkout/payment/create';
+        Log::info('URL');
+        Log::debug($url);
+        $url = curl_init($url);
 
         $body = json_encode($body);
+        Log::info('body');
+        Log::debug($body);
 
         $token = Token::get();
 
@@ -36,6 +43,8 @@ class CreatePayment
 
         $resultData = curl_exec($url);
         curl_close($url);
+        Log::info('response');
+        Log::debug($resultData);
         return $resultData;
     }
 

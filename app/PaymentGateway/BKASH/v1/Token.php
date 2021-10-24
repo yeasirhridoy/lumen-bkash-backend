@@ -5,6 +5,7 @@ namespace App\PaymentGateway\BKASH\v1;
 
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class Token
 {
@@ -17,6 +18,9 @@ class Token
             return (new self())->createToken();
         });
 
+        Log::info('token');
+        Log::debug(json_encode($token));
+
         return $token['id_token'];
     }
 
@@ -28,6 +32,10 @@ class Token
         );
 
         $url = env('BKASH_BASE_URL') . 'checkout/token/grant';
+
+        Log::info('url');
+        Log::debug($url);
+
         $url = curl_init($url);
 
         $body = json_encode($body);
@@ -45,6 +53,9 @@ class Token
         $resultData = curl_exec($url);
         curl_close($url);
         $response = json_decode($resultData, true);
+
+        Log::info('body');
+        Log::debug($body);
 
         return $response;
     }
